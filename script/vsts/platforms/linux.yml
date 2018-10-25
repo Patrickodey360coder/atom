@@ -24,9 +24,9 @@ jobs:
 
   - script: |
       if [ $IS_RELEASE_BRANCH ] || [ $IS_SIGNED_ZIP_BRANCH ]; then
-        script/build --create-debian-package --create-rpm-package --compress-artifacts
+        CC=clang-3.5 CXX=clang++-3.5 npm_config_clang=1 script/build --create-debian-package --create-rpm-package --compress-artifacts
       else
-        script/build --compress-artifacts
+        CC=clang-3.5 CXX=clang++-3.5 npm_config_clang=1 script/build --compress-artifacts
       fi
     env:
       ATOM_RELEASE_VERSION: $(ReleaseVersion)
