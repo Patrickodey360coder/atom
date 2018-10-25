@@ -23,9 +23,15 @@ jobs:
     displayName: Install apt dependencies
 
   - script: |
-      script/build --create-debian-package --create-rpm-package --compress-artifacts
+      if [ $IS_RELEASE_BRANCH ] || [ $IS_SIGNED_ZIP_BRANCH ]; then
+        script/build --create-debian-package --create-rpm-package --compress-artifacts
+      else
+        script/build --compress-artifacts
+      fi
     env:
       ATOM_RELEASE_VERSION: $(ReleaseVersion)
+      IS_RELEASE_BRANCH: $(IsReleaseBranch)
+      IS_SIGNED_ZIP_BRANCH: $(IsSignedZipBranch)
     displayName: Build Atom
 
   - script: script/lint
